@@ -22,7 +22,18 @@ jobs:
     # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
     - uses: actions/checkout@v2
 
+    - name: Prepare folders
+      run: |
+        mkdir ~/workspace
+        mkdir ~/build
+
     - name: Build docker
       run: |
-        docker build .
+        docker build --tag ghabuilder:now .
         docker images
+        docker run --name builder -v ~/workspace:/workspace -v ~/build:/build ghabuilder:now
+
+    - name: List output
+      run: |
+        ls -lh ~/workspace
+        ls -lh ~/build
