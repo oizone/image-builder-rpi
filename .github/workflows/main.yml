@@ -31,7 +31,12 @@ jobs:
       run: |
         docker build --tag ghabuilder:now .
         docker images
-        docker run --name builder -v ~/workspace:/workspace -v ~/build:/build ghabuilder:now
+        #docker run --name builder -v ~/workspace:/workspace -v ~/build:/build ghabuilder:now
+        ./vagrant up
+        export DOCKER_HOST=tcp://127.0.0.1:2375
+        docker info | grep 'Operating System'
+        make sd-image
+        ls -lh
 
     - name: List output
       run: |
